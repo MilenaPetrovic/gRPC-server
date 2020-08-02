@@ -13,13 +13,22 @@ var packageDefinition = protoLoader.loadSync(
 var pasos_proto = grpc.loadPackageDefinition(packageDefinition).pasos;
 
 function main() {
-  var client = new pasos_proto.BrojPasosa('localhost:50051', grpc.credentials.createInsecure());
+  var client = new pasos_proto.Pasos('localhost:50051', grpc.credentials.createInsecure());
 
-  var brojPasosa = '1';
+  var pasos = {
+    brojPasosa: '1',
+    idZivotinje: 'RS1'
+  };
 
-  client.vratiPasos({brojPasosa: brojPasosa}, function(err, response) {
+  console.log(pasos);
+  
+
+  client.upsertPasos({pasos: pasos}, function(err, response) {
     console.log(response.message);
+    pasos = response.message
+    console.log(pasos)
   });
+
 }
 
 main();
